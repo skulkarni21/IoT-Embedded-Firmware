@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;SPI_Tap_Sensor&apos; to &apos;Assignment_collection&apos;" description="Rename resource &apos;SPI_Tap_Sensor&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/SPI_Tap_Sensor" name="Assignment_collection" stamp="1506732628449" updateReferences="true"/>
+</session>

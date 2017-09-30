@@ -1,0 +1,33 @@
+!SESSION 2017-09-29 18:47:52.073 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -data /home/sarang/IoT-Embedded-Firmware -os linux -ws gtk -arch x86_64
+
+!ENTRY com.silabs.ss.platform.content.core 1 0 2017-09-29 18:48:03.885
+!MESSAGE AssetService server URI is: http://devtools.silabs.com/studio/v4/assets/
+
+!ENTRY com.silabs.ss.platform.analytics.core 1 0 2017-09-29 18:48:05.451
+!MESSAGE Creating log directory/home/sarang/IoT-Embedded-Firmware/outgoing
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-09-29 18:49:18.016
+!MESSAGE Unknown architecture(s) [efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[932]~flash[512K]~temp[G]~package[M]~pins[48]+iar, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[932]~flash[512K]~temp[G]~package[M]~pins[48]+gcc, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[832]~flash[512K]~temp[I]~package[M]~pins[48]+iar, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[832]~flash[512K]~temp[I]~package[M]~pins[48]+gcc, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[832]~flash[512K]~temp[G]~package[M]~pins[48]+iar, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[832]~flash[512K]~temp[G]~package[M]~pins[48]+gcc, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[932]~flash[512K]~temp[I]~package[M]~pins[48]+iar, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[932]~flash[512K]~temp[I]~package[M]~pins[48]+gcc] in framework ble
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-09-29 18:49:18.017
+!MESSAGE Unknown board 'BRD4165B' in framework ble
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-09-29 18:49:18.120
+!MESSAGE Unknown architecture(s) [EFR32MG13P832F512GM48+iar, EFR32MG13P932F512GM48+iar, EFR32MG13P932F512IM48+iar, EFR32MG13P832F512GM48+gcc, EFR32MG13P932F512GM48+gcc, EFR32MG13P932F512IM48+gcc] in framework flex
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-09-29 18:49:18.121
+!MESSAGE Unknown board 'BRD4165A' in framework flex
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-09-29 18:49:18.122
+!MESSAGE Unknown board 'BRD4165B' in framework flex
+
+!ENTRY org.eclipse.cdt.core 1 0 2017-09-29 18:49:32.700
+!MESSAGE Indexed 'SPI_Tap_Sensor' (54 sources, 149 headers) in 12.1 sec: 9,422 declarations; 27,583 references; 0 unresolved inclusions; 106 syntax errors; 11 unresolved names (0.03%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2017-09-29 18:50:36.374
+!MESSAGE Indexed 'Assignment_collection' (54 sources, 149 headers) in 7.8 sec: 9,422 declarations; 27,583 references; 0 unresolved inclusions; 106 syntax errors; 11 unresolved names (0.03%)
