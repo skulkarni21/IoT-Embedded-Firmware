@@ -1,0 +1,26 @@
+/*
+ * spi.h
+ *
+ *  Created on: 27-Sep-2017
+ *      Author: Sarang Kulkarni
+ */
+
+#ifndef SRC_SPI_H_
+#define SRC_SPI_H_
+
+
+#include <em_device.h>
+#include "em_chip.h"
+#include "main.h"
+#include "gpio.h"
+#include "cmu.h"
+#include "em_cmu.h"
+#include "em_letimer.h"
+#include "em_usart.h"
+
+void SPI_Init(void);
+
+uint8_t spi_write(uint8_t reg_addr, uint8_t data);
+uint8_t spi_read(uint8_t reg_addr);
+
+#endif /* SRC_SPI_H_ */
