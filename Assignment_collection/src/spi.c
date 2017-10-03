@@ -7,6 +7,7 @@
 
 
 #include "spi.h"
+#include "em_usart.h"
 
 void SPI_Init(void){
 	USART_InitSync_TypeDef spi_init;

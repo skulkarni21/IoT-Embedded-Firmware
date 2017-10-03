@@ -246,7 +246,7 @@ void I2C_BusFreqSet(I2C_TypeDef *i2c,
   }
 
   /* Check minumum HF peripheral clock */
-  minFreq = UINT_MAX;
+
   if (i2c->CTRL & I2C_CTRL_SLAVE) {
     switch (i2cMode) {
       case i2cClockHLRStandard:
