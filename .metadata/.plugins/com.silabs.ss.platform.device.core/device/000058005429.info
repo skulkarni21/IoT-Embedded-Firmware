@@ -1,0 +1,4 @@
+protectFromDetectionUpdates=false
+label=J-Link (58005429)
+boardOverrides {
+}
