@@ -133,3 +133,228 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64
 
 !ENTRY com.silabs.foundation.core_rcp 2 0 2017-10-04 18:47:37.056
 !MESSAGE Unknown board 'BRD4165B' in framework flex
+!SESSION 2017-10-05 10:05:49.054 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2017-10-05 10:05:50.755
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-10-05 10:06:04.668
+!MESSAGE Unknown architecture(s) [efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[932]~flash[512K]~temp[G]~package[M]~pins[48]+iar, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[932]~flash[512K]~temp[G]~package[M]~pins[48]+gcc, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[832]~flash[512K]~temp[I]~package[M]~pins[48]+iar, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[832]~flash[512K]~temp[I]~package[M]~pins[48]+gcc, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[832]~flash[512K]~temp[G]~package[M]~pins[48]+iar, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[832]~flash[512K]~temp[G]~package[M]~pins[48]+gcc, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[932]~flash[512K]~temp[I]~package[M]~pins[48]+iar, efr32~family[M]~series[1]~device_configuration[3]~performance[P]~radio[932]~flash[512K]~temp[I]~package[M]~pins[48]+gcc] in framework ble
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-10-05 10:06:04.671
+!MESSAGE Unknown board 'BRD4165B' in framework ble
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-10-05 10:06:04.696
+!MESSAGE Unknown architecture(s) [EFR32MG13P832F512GM48+iar, EFR32MG13P932F512GM48+iar, EFR32MG13P932F512IM48+iar, EFR32MG13P832F512GM48+gcc, EFR32MG13P932F512GM48+gcc, EFR32MG13P932F512IM48+gcc] in framework flex
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-10-05 10:06:04.698
+!MESSAGE Unknown board 'BRD4165A' in framework flex
+
+!ENTRY com.silabs.foundation.core_rcp 2 0 2017-10-05 10:06:04.698
+!MESSAGE Unknown board 'BRD4165B' in framework flex
+
+!ENTRY com.silabs.ss.platform.content.core 1 0 2017-10-05 10:06:08.220
+!MESSAGE AssetService server URI is: http://devtools.silabs.com/studio/v4/assets/
+
+!ENTRY com.silabs.ss.platform.content.core 1 0 2017-10-05 10:06:08.559
+!MESSAGE Unable to download asset://common/license.txt
+!STACK 0
+java.lang.Exception: No registered asset with URI asset://common/license.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.getAsset(AssetService.java:180)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:353)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService$2.run(AssetService.java:320)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:08.562
+!MESSAGE Failed to retrieve asset
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to download asset://common/license.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:337)
+	at com.silabs.ss.platform.internal.api.installer.ui.EULADialog.getAssetURI(EULADialog.java:33)
+	at com.silabs.ss.platform.internal.api.installer.ui.EULADialog.needsDialog(EULADialog.java:71)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:9)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:08.562
+!MESSAGE Unable to download asset://common/license.txt
+
+!ENTRY com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:08.565
+!MESSAGE Unable to download asset://common/license.txt
+
+!ENTRY com.silabs.ss.platform.content.core 1 0 2017-10-05 10:06:08.745
+!MESSAGE Unable to download asset://common/license.txt
+!STACK 0
+java.lang.Exception: No registered asset with URI asset://common/license.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.getAsset(AssetService.java:180)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:353)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService$2.run(AssetService.java:320)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:08.750
+!MESSAGE Unable to download asset://common/license.txt
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:08.751
+!MESSAGE Failed to retrieve asset
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to download asset://common/license.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:337)
+	at com.silabs.ss.platform.internal.api.installer.ui.EULADialog.getAssetURI(EULADialog.java:33)
+	at com.silabs.ss.platform.internal.api.installer.ui.EULADialog.getAssetStatic(EULADialog.java:47)
+	at com.silabs.ss.platform.internal.api.installer.ui.EULADialog.needsDialog(EULADialog.java:71)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:9)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:08.751
+!MESSAGE Unable to download asset://common/license.txt
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:08.752
+!MESSAGE Failed to retrieve asset
+!STACK 0
+java.lang.Exception: No registered asset with URI asset://common/license.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.getAsset(AssetService.java:180)
+	at com.silabs.ss.platform.internal.api.installer.ui.LicenseDialog.getTimestamp(LicenseDialog.java:75)
+	at com.silabs.ss.platform.internal.api.installer.ui.EULADialog.needsDialog(EULADialog.java:71)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:9)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:08.753
+!MESSAGE Failed to retrieve asset
+!STACK 0
+java.lang.NullPointerException
+	at com.silabs.ss.platform.internal.api.installer.ui.LicenseDialog.getTimestamp(LicenseDialog.java:90)
+	at com.silabs.ss.platform.internal.api.installer.ui.EULADialog.needsDialog(EULADialog.java:71)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:9)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.content.core 1 0 2017-10-05 10:06:08.935
+!MESSAGE Unable to download asset://common/TermsOfUse.htm
+!STACK 0
+java.lang.Exception: No registered asset with URI asset://common/TermsOfUse.htm
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.getAsset(AssetService.java:180)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:353)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService$2.run(AssetService.java:320)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:08.935
+!MESSAGE Unable to download asset://common/TermsOfUse.htm
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:08.935
+!MESSAGE Failed to retrieve asset
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to download asset://common/TermsOfUse.htm
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:337)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.getAssetURI(TermsOfUseDialog.java:34)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.needsDialog(TermsOfUseDialog.java:70)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:10)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:08.935
+!MESSAGE Unable to download asset://common/TermsOfUse.htm
+
+!ENTRY com.silabs.ss.platform.content.core 1 0 2017-10-05 10:06:09.092
+!MESSAGE Unable to download asset://common/terms_of_use.txt
+!STACK 0
+java.lang.Exception: No registered asset with URI asset://common/terms_of_use.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.getAsset(AssetService.java:180)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:353)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService$2.run(AssetService.java:320)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:09.093
+!MESSAGE Unable to download asset://common/terms_of_use.txt
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:09.093
+!MESSAGE Failed to retrieve asset
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to download asset://common/terms_of_use.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:337)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.getAssetURI(TermsOfUseDialog.java:42)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.needsDialog(TermsOfUseDialog.java:70)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:10)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:09.093
+!MESSAGE Unable to download asset://common/terms_of_use.txt
+
+!ENTRY com.silabs.ss.platform.content.core 1 0 2017-10-05 10:06:09.369
+!MESSAGE Unable to download asset://common/TermsOfUse.htm
+!STACK 0
+java.lang.Exception: No registered asset with URI asset://common/TermsOfUse.htm
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.getAsset(AssetService.java:180)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:353)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService$2.run(AssetService.java:320)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:09.369
+!MESSAGE Unable to download asset://common/TermsOfUse.htm
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:09.370
+!MESSAGE Failed to retrieve asset
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to download asset://common/TermsOfUse.htm
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:337)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.getAssetURI(TermsOfUseDialog.java:34)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.getAssetStatic(TermsOfUseDialog.java:56)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.needsDialog(TermsOfUseDialog.java:70)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:10)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:09.370
+!MESSAGE Unable to download asset://common/TermsOfUse.htm
+
+!ENTRY com.silabs.ss.platform.content.core 1 0 2017-10-05 10:06:09.527
+!MESSAGE Unable to download asset://common/terms_of_use.txt
+!STACK 0
+java.lang.Exception: No registered asset with URI asset://common/terms_of_use.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.getAsset(AssetService.java:180)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:353)
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService$2.run(AssetService.java:320)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:09.528
+!MESSAGE Unable to download asset://common/terms_of_use.txt
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:09.528
+!MESSAGE Failed to retrieve asset
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to download asset://common/terms_of_use.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.resolveAsset(AssetService.java:337)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.getAssetURI(TermsOfUseDialog.java:42)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.getAssetStatic(TermsOfUseDialog.java:56)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.needsDialog(TermsOfUseDialog.java:70)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:10)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 com.silabs.ss.platform.content.core 2 0 2017-10-05 10:06:09.528
+!MESSAGE Unable to download asset://common/terms_of_use.txt
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:09.529
+!MESSAGE Failed to retrieve asset
+!STACK 0
+java.lang.Exception: No registered asset with URI asset://common/terms_of_use.txt
+	at com.silabs.ss.platform.internal.api.content.core.asset.AssetService.getAsset(AssetService.java:180)
+	at com.silabs.ss.platform.internal.api.installer.ui.LicenseDialog.getTimestamp(LicenseDialog.java:75)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.needsDialog(TermsOfUseDialog.java:70)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:10)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.installer.ui 4 0 2017-10-05 10:06:09.529
+!MESSAGE Failed to retrieve asset
+!STACK 0
+java.lang.NullPointerException
+	at com.silabs.ss.platform.internal.api.installer.ui.LicenseDialog.getTimestamp(LicenseDialog.java:90)
+	at com.silabs.ss.platform.internal.api.installer.ui.TermsOfUseDialog.needsDialog(TermsOfUseDialog.java:70)
+	at com.silabs.ss.platform.internal.api.installer.ui.CheckLicenses.checkLicenses(CheckLicenses.java:10)
+	at com.silabs.ss.platform.internal.product.AppStartupCompleteEventHandler$1.run(AppStartupCompleteEventHandler.java:87)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.silabs.ss.platform.analytics.core 1 0 2017-10-05 10:06:10.326
+!MESSAGE Creating log directory/home/sarang/Downloads/SimplicityStudio/IoT-Embedded-Firmware/outgoing

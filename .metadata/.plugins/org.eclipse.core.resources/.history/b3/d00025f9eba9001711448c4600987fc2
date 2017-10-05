@@ -46,3 +46,4 @@ void I2C_init(void){
 
 	//read through the datasheet of the sensor
 }
+

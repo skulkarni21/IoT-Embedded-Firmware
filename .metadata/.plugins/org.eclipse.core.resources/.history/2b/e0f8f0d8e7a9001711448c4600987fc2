@@ -8,18 +8,9 @@ void I2C_init(void){
 	CMU_ClockEnable(cmuClock_HFPER, true);//enable high frequency peripheral clock
 	CMU_ClockEnable(cmuClock_I2C0, true);
 
-
-
 	//set gpio pin modes
 	GPIO_PinModeSet(gpioPortC, 10, gpioModeWiredAnd, 1);//pull up SCL
 	GPIO_PinModeSet(gpioPortC, 11, gpioModeWiredAnd, 1);//SDA
-
-	//clear buffers in I2C slave
-	for (int i=0; i<9; i++){
-		GPIO_PinOutClear(gpioPortC, 10);
-		GPIO_PinOutSet(gpioPortC, 10);
-	}
-
 
 	i2c_init.clhr = i2cClockHLRStandard;
 	i2c_init.master = true;
@@ -28,11 +19,6 @@ void I2C_init(void){
 
 	//init I2C
 	I2C_Init(I2C0, &i2c_init);
-
-	//reset the I2C bus
-	if(I2C0->STATE & I2C_STATE_BUSY){
-		I2C0->CMD = I2C_CMD_ABORT;
-	}
 	//route the pins to respective location
 	I2C0 -> ROUTELOC0 = I2C_ROUTELOC0_SDALOC_LOC16 |I2C_ROUTELOC0_SCLLOC_LOC14;
 	I2C0 -> ROUTEPEN = I2C_ROUTEPEN_SCLPEN | I2C_ROUTEPEN_SDAPEN;
@@ -46,3 +32,4 @@ void I2C_init(void){
 
 	//read through the datasheet of the sensor
 }
+
