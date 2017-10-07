@@ -99,6 +99,7 @@ uint8_t boot_to_dfu = 0;
 #include "bma280.h"
 #include "timer.h"
 #include "em_timer.h"
+#include "i2c.h"
 
 
 
@@ -117,7 +118,7 @@ MX25_init();
 MX25_DP();
 /* We must disable SPI communication */
 USART_Reset(USART1);
-
+uint16_t data;
 #endif /* FEATURE_SPI_FLASH */
 
 /* Initialize peripherals */
@@ -134,7 +135,8 @@ bma_init();
 timer_init();
 spi_write(0x11,0x80);
 
-
+i2c_enable();
+data = Caculate_Celsius(I2C0_read());
 letimer_init();
 LETIMER_Enable(LETIMER0, true);
 while (1) {
