@@ -1,0 +1,28 @@
+#include "si7021.h"
+
+void si_measure_start(void){
+	//signifying write of address (0x40) to the slave
+	I2C0->TXDATA = (0x40 << 1) | 0x00 ;//start with write
+
+	//send the START bit
+	I2C0->CMD = I2C_CMD_START;
+	//I2C0 -> IFC = I2C_IFC_START;
+
+	//wait for the salve to respond
+	while ((I2C0->IF & I2C_IF_ACK) == 0);
+
+	//after ACK has been received, it must be cleared from the IF
+	I2C0->IFC = I2C_IFC_ACK;
+
+	// Set "Command Code: 0xE3"
+	I2C0->TXDATA = 0xF3;
+
+	I2C0->CMD = I2C_CMD_START;
+
+	//wait for the salve to respond
+	while ((I2C0->IF & I2C_IF_ACK) == 0);
+
+	//after ACK has been received, it must be cleared from the IF
+	I2C0->IFC = I2C_IFC_ACK;
+
+}

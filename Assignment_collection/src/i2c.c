@@ -14,7 +14,7 @@ void i2c_init(void){
 	i2c_init.clhr = i2cClockHLRStandard;
 	i2c_init.master = true;
 	i2c_init.refFreq = 0;
-	i2c_init.freq = I2C_FREQ_STANDARD_MAX; //check the datasheet
+	i2c_init.freq = 1000000; //check the datasheet
 	i2c_init.enable = false;//
 
 	//route the pins to respective location
@@ -128,8 +128,6 @@ void I2C0_write (uint8_t reg, uint8_t data) {
 
 	//after ACK has been received, it must be cleared from the IF
 	I2C0->IFC = I2C_IFC_ACK;
-
-	// Set "Command Code: 0xE0"
 	I2C0->TXDATA = reg;
 
 	//wait for the salve to respond

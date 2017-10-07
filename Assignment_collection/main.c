@@ -100,6 +100,7 @@ uint8_t boot_to_dfu = 0;
 #include "timer.h"
 #include "em_timer.h"
 #include "i2c.h"
+#include "si7021.h"
 
 
 
@@ -136,7 +137,9 @@ timer_init();
 spi_write(0x11,0x80);
 
 i2c_enable();
-data = Caculate_Celsius(I2C0_read());
+si_measure_start();
+for(int i = 0; i<50;i++);
+data = Caculate_Celsius(si_read_result());
 letimer_init();
 LETIMER_Enable(LETIMER0, true);
 while (1) {
