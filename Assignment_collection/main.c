@@ -138,13 +138,11 @@ spi_write(0x11,0x80);
 
 i2c_enable();
 si_measure_start();
-for(int i = 0; i<50;i++);
 data = Caculate_Celsius(si_read_result());
 letimer_init();
 LETIMER_Enable(LETIMER0, true);
 while (1) {
-sleep();
-
+	sleep();
   }
 }
 

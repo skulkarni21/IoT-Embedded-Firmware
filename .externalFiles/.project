@@ -8,4 +8,16 @@
 	</buildSpec>
 	<natures>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>_home_sarang_SimplicityStudio_v4_developer_sdks_gecko_sdk_suite_v1.1_platform_emlib_inc_em_cmu.h</name>
+			<type>1</type>
+			<location>/home/sarang/SimplicityStudio_v4/developer/sdks/gecko_sdk_suite/v1.1/platform/emlib/inc/em_cmu.h</location>
+		</link>
+		<link>
+			<name>_home_sarang_SimplicityStudio_v4_developer_sdks_gecko_sdk_suite_v1.1_platform_emlib_inc_em_timer.h</name>
+			<type>1</type>
+			<location>/home/sarang/SimplicityStudio_v4/developer/sdks/gecko_sdk_suite/v1.1/platform/emlib/inc/em_timer.h</location>
+		</link>
+	</linkedResources>
 </projectDescription>
