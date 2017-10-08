@@ -1,10 +1,12 @@
 #include "i2c.h"
 #include "em_gpio.h"
+#include "sleep_modes.h"
+
 
 void i2c_init(void){
 	//i2c is on PC11 and PC 10 on location 16
 	I2C_Init_TypeDef i2c_init = I2C_INIT_DEFAULT;
-
+	//blockSleepMode(EM1);
 	CMU_ClockEnable(cmuClock_I2C0, true);
 
 	//set gpio pin modes
@@ -46,11 +48,16 @@ void i2c_enable(void){
 	for(int i = 0; i <100000; i++);
 	i2c_init();
 	I2C_Enable(I2C0, true);
+	//unblockSleepMode(EM1);
 }
 
-void i2c_disabe(void){
+void i2c_disable(void){
+	if(I2C0->STATE & I2C_STATE_BUSY){
+		I2C0->CMD = I2C_CMD_ABORT;
+	}
 	GPIO_PinOutClear(gpioPortD, 9);
 	I2C_Enable(I2C0, false);
+	//blockSleepMode(EM3);
 }
 
 float Caculate_Celsius(uint16_t i2c_read_data){

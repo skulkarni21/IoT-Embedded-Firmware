@@ -1,0 +1,303 @@
+/***********************************************************************************************//**
+ * \file   main.c
+ * \brief  Silicon Labs Empty Example Project
+ *
+ * This example demonstrates the bare minimum needed for a Blue Gecko C application
+ * that allows Over-the-Air Device Firmware Upgrading (OTA DFU). The application
+ * starts advertising after boot and restarts advertising after a connection is closed.
+ ***************************************************************************************************
+ * <b> (C) Copyright 2016 Silicon Labs, http://www.silabs.com</b>
+ ***************************************************************************************************
+ * This file is licensed under the Silabs License Agreement. See the file
+ * "Silabs_License_Agreement.txt" for details. Before using this software for
+ * any purpose, you must agree to the terms of that agreement.
+ **************************************************************************************************/
+
+/* Board headers */
+#include <letimer.h>
+#include <sleep_modes.h>
+#include "boards.h"
+#include "ble-configuration.h"
+#include "board_features.h"
+#include "bg_types.h"
+#include "native_gecko.h"
+#include "gatt_db.h"
+#include "aat.h"
+#include <stdint.h>
+#include <stdbool.h>
+
+
+/* Libraries containing default Gecko configuration values */
+#include "em_emu.h"
+#include "em_cmu.h"
+#ifdef FEATURE_BOARD_DETECTED
+#include "bspconfig.h"
+#include "pti.h"
+#endif
+
+/* Device initialization header */
+#include "InitDevice.h"
+
+#ifdef FEATURE_SPI_FLASH
+#include "em_usart.h"
+#include "mx25flash_spi.h"
+#endif /* FEATURE_SPI_FLASH */
+
+/***********************************************************************************************//**
+ * @addtogroup Application
+ * @{
+ **************************************************************************************************/
+
+/***********************************************************************************************//**
+ * @addtogroup app
+ * @{
+ **************************************************************************************************/
+
+#ifndef MAX_CONNECTIONS
+#define MAX_CONNECTIONS 4
+#endif
+uint8_t bluetooth_stack_heap[DEFAULT_BLUETOOTH_HEAP(MAX_CONNECTIONS)];
+
+#ifdef FEATURE_PTI_SUPPORT
+static const RADIO_PTIInit_t ptiInit = RADIO_PTI_INIT;
+#endif
+
+/* Gecko configuration parameters (see gecko_configuration.h) */
+static const gecko_configuration_t config = {
+  .config_flags = 0,
+  .sleep.flags = SLEEP_FLAGS_DEEP_SLEEP_ENABLE,
+  .bluetooth.max_connections = MAX_CONNECTIONS,
+  .bluetooth.heap = bluetooth_stack_heap,
+  .bluetooth.heap_size = sizeof(bluetooth_stack_heap),
+  .bluetooth.sleep_clock_accuracy = 100, // ppm
+  .gattdb = &bg_gattdb_data,
+  .ota.flags = 0,
+  .ota.device_name_len = 3,
+  .ota.device_name_ptr = "OTA",
+  #ifdef FEATURE_PTI_SUPPORT
+  .pti = &ptiInit,
+  #endif
+};
+
+/* Flag for indicating DFU Reset must be performed */
+uint8_t boot_to_dfu = 0;
+
+//***********************************************************************************
+// Include files
+//***********************************************************************************
+
+#include "em_device.h"
+#include "em_chip.h"
+#include "main.h"
+#include "gpio.h"
+#include "cmu.h"
+#include "em_cmu.h"
+#include "em_letimer.h"
+#include "em_adc.h"
+#include "adc.h"
+#include "spi.h"
+#include "bma280.h"
+#include "timer.h"
+#include "em_timer.h"
+#include "i2c.h"
+#include "si7021.h"
+
+#define TEMP_THRES 15
+
+
+
+int32_t i = 1;
+ int32_t a = 0;
+volatile uint16_t adc_reg_value;
+volatile float adc_value;
+volatile int gpio_flag =0;
+volatile uint16_t data;
+volatile int temp_thres = TEMP_THRES;
+ int i2c_disabled = 0;
+
+int main(void)
+{
+#ifdef FEATURE_SPI_FLASH
+/* Put the SPI flash into Deep Power Down mode for those radio boards where it is available */
+MX25_init();
+MX25_DP();
+/* We must disable SPI communication */
+USART_Reset(USART1);
+#endif /* FEATURE_SPI_FLASH */
+
+/* Initialize peripherals */
+enter_DefaultMode_from_RESET();
+
+/* Initialize stack */
+gecko_init(&config);
+/* Initialize clocks */
+cmu_init();
+gpio_init();
+adc_init();
+SPI_Init();
+bma_init();
+timer_init();
+spi_write(0x11,0x80);
+
+i2c_enable();
+si_measure_start();
+data = Caculate_Celsius(si_read_result());
+letimer_init();
+LETIMER_Enable(LETIMER0, true);
+while (1) {
+	sleep();
+  }
+}
+
+void bma_wakeup(void)
+{
+	__enable_irq();
+	TIMER_Enable(TIMER0,true);
+	blockSleepMode(EM1);
+}
+
+void ADC0_IRQHandler(void){
+	__disable_irq();
+	a = ADC0->SINGLEDATA;
+	int flags = ADC_IntGet(ADC0);
+    static bool swi;
+	ADC_IntClear(ADC0, ADC_IFC_SINGLECMP);
+    //uint32_t LFAFreq = CMU_ClockFreqGet(cmuClock_LFA);			//setting the value of the LFA clock in CurrentLFAFreq
+    if(swi)
+    {
+    	if( a <= 0x34){//centre
+//			 Time = ON;
+//		     Time *= LFAFreq;
+//			 LETIMER_CompareSet(LETIMER0,1,Time);
+//			 GPIO_PinOutClear(LED1_port,LED1_pin);
+			temp_thres = TEMP_THRES;
+			GPIO_PinOutClear(LED1_port,LED1_pin);
+    		swi = 0;
+			 ADC0->CMPTHR = (4095<<_ADC_CMPTHR_ADLT_SHIFT)|(4000<<_ADC_CMPTHR_ADGT_SHIFT);
+		 }
+   else if(a<=2028)//south
+   {
+			//Time = ((float)LETIMER_CompareGet(LETIMER0, 1)/LFAFreq);
+			spi_write(0x11,0x80);
+			swi = 0;
+			ADC0->CMPTHR = (4095<<_ADC_CMPTHR_ADLT_SHIFT)|(4000<<_ADC_CMPTHR_ADGT_SHIFT);
+	}
+   else if(a<=2500){//west
+//   		Time = ((float)LETIMER_CompareGet(LETIMER0, 1)/LFAFreq);
+//   		if(Time < 2.5)
+//   		{
+//
+//   			Time = (Time + 0.5)* LFAFreq;
+//   			LETIMER_CompareSet(LETIMER0,1,Time);
+//   		}
+	   temp_thres += 5;
+   		swi = 0;
+        ADC0->CMPTHR = (4095<<_ADC_CMPTHR_ADLT_SHIFT)|(4000<<_ADC_CMPTHR_ADGT_SHIFT);
+
+   	}
+   else if(a<=3200){//east
+//   		Time = ((float)LETIMER_CompareGet(LETIMER0, 1)/LFAFreq);
+// 		if(Time >= 0.5)
+//   			{
+//   				Time = (Time - 0.5)* LFAFreq;
+//   				LETIMER_CompareSet(LETIMER0,1,Time);
+//   			}
+   		temp_thres -= 5;
+	   swi = 0;
+   		 ADC0->CMPTHR = (4095 << _ADC_CMPTHR_ADGT_SHIFT) + (4000 << _ADC_CMPTHR_ADLT_SHIFT);
+
+   		}
+   else if(a<=3468){//north
+			spi_write(0x11,0x00);
+			bma_wakeup();
+			swi = 0;
+			ADC0->CMPTHR = (4095<<_ADC_CMPTHR_ADLT_SHIFT)|(4000<<_ADC_CMPTHR_ADGT_SHIFT);
+    	}
+    }
+
+		else if(a>=3468){
+			swi = 1;
+		   ADC0->CMPTHR = (4000<<_ADC_CMPTHR_ADLT_SHIFT)|(34<<_ADC_CMPTHR_ADGT_SHIFT);
+			}
+    ADC0->SINGLEFIFOCLEAR = 1;
+    ADC_IntClear(ADC0,flags);
+
+__enable_irq();
+}
+
+void GPIO_ODD_IRQHandler()
+{   __disable_irq();
+
+	GPIO->IFC = 0x00000800;
+
+	if(gpio_flag==0){
+		//GPIO_PinOutClear(LED1_port,LED1_pin);
+
+		i2c_disable();
+		i2c_disabled = 1;
+		while (!(USART1->STATUS & USART_STATUS_TXBL));
+		USART1->TXDOUBLE= 0x1016;
+		while (!(USART1->STATUS & USART_STATUS_TXC));
+		USART1->CMD |= _USART_CMD_CLEARRX_MASK;
+		USART1->CMD &= ~(_USART_CMD_CLEARRX_MASK);
+
+		while (!(USART1->STATUS & USART_STATUS_TXBL));
+		USART1->TXDOUBLE= 0x1019;
+		while (!(USART1->STATUS & USART_STATUS_TXC));
+		USART1->CMD |= _USART_CMD_CLEARRX_MASK;
+		USART1->CMD &= ~(_USART_CMD_CLEARRX_MASK);
+		gpio_flag =1;
+     }
+     else{
+    	//GPIO_PinOutSet(LED1_port,LED1_pin);
+
+    	i2c_enable();
+    	i2c_disabled = 0;
+    	while (!(USART1->STATUS & USART_STATUS_TXBL));
+    	USART1->TXDOUBLE= 0x2016;
+    	while (!(USART1->STATUS & USART_STATUS_TXC));
+    	USART1->CMD |= _USART_CMD_CLEARRX_MASK;
+    	USART1->CMD &= ~(_USART_CMD_CLEARRX_MASK);
+
+  	 	while (!(USART1->STATUS & USART_STATUS_TXBL));
+   	 	USART1->TXDOUBLE= 0x2019;
+   	 	while (!(USART1->STATUS & USART_STATUS_TXC));
+   	 	USART1->CMD |= _USART_CMD_CLEARRX_MASK;
+   	 	USART1->CMD &= ~(_USART_CMD_CLEARRX_MASK);
+   	 	gpio_flag = 0;
+     }
+	__enable_irq();
+}
+
+void TIMER0_IRQHandler(void)
+{
+	__disable_irq();
+	TIMER_Enable(TIMER0, false);
+	TIMER0->CNT = 0x0000;
+	TIMER_IntClear(TIMER0, TIMER_IFC_OF);
+	unblockSleepMode(EM1);
+	__enable_irq();
+}
+
+void LETIMER0_IRQHandler(void) {
+	static int intFlags;
+	__disable_irq();
+	intFlags = LETIMER_IntGet(LETIMER0);
+	LETIMER_IntClear(LETIMER0, intFlags);
+	if(intFlags & LETIMER_IF_COMP0)
+	{
+		if(i2c_disabled == 0){
+			//GPIO_PinOutToggle(LED0_port,LED0_pin);
+			si_measure_start();
+			data = Caculate_Celsius(si_read_result());
+			if(data<temp_thres)
+				GPIO_PinOutToggle(LED1_port,LED1_pin);
+		}
+	}
+	__enable_irq();                         //Re-enable interrupts
+
+}
+
+
+/** @} (end addtogroup app) */
+/** @} (end addtogroup Application) */

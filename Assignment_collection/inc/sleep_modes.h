@@ -12,7 +12,7 @@
 #define EM1 1
 #define EM2 2
 #define EM3 3
-#define ON 0.2
+#define ON 2.5
 #define OFF 3
 #define Lowest_Energy EM3
 

@@ -102,6 +102,8 @@ uint8_t boot_to_dfu = 0;
 #include "i2c.h"
 #include "si7021.h"
 
+#define TEMP_THRES 15
+
 
 
 int32_t i = 1;
@@ -109,7 +111,9 @@ int32_t i = 1;
 volatile uint16_t adc_reg_value;
 volatile float adc_value;
 volatile int gpio_flag =0;
-
+volatile uint16_t data;
+volatile int temp_thres = TEMP_THRES;
+ int i2c_disabled = 0;
 
 int main(void)
 {
@@ -119,7 +123,6 @@ MX25_init();
 MX25_DP();
 /* We must disable SPI communication */
 USART_Reset(USART1);
-uint16_t data;
 #endif /* FEATURE_SPI_FLASH */
 
 /* Initialize peripherals */
@@ -153,74 +156,60 @@ void bma_wakeup(void)
 	blockSleepMode(EM1);
 }
 
-void LETIMER0_IRQHandler(void) {
-	static int intFlags;
-	    __disable_irq();
-	    intFlags = LETIMER_IntGet(LETIMER0);
-	    LETIMER_IntClear(LETIMER0, intFlags);
-	    if(intFlags & LETIMER_IF_COMP0)
-	    {
-			 GPIO_PinOutClear(LED0_port,LED0_pin);
-
-	    }
-	    else
-	    {
-			 GPIO_PinOutSet(LED0_port,LED0_pin);
-
-	    }
-	    __enable_irq();                         //Re-enable interrupts
-
-
-}
 void ADC0_IRQHandler(void){
 	__disable_irq();
 	a = ADC0->SINGLEDATA;
 	int flags = ADC_IntGet(ADC0);
-    float static Time;
     static bool swi;
 	ADC_IntClear(ADC0, ADC_IFC_SINGLECMP);
-    uint32_t LFAFreq = CMU_ClockFreqGet(cmuClock_LFA);			//setting the value of the LFA clock in CurrentLFAFreq
+    //uint32_t LFAFreq = CMU_ClockFreqGet(cmuClock_LFA);			//setting the value of the LFA clock in CurrentLFAFreq
     if(swi)
     {
-    	if( a <= 0x34){
-			 Time = ON;
-		     Time *= LFAFreq;
-			 LETIMER_CompareSet(LETIMER0,1,Time);
-			 GPIO_PinOutClear(LED1_port,LED1_pin);
-			 swi = 0;
+    	if( a <= 0x34){//centre
+//			 Time = ON;
+//		     Time *= LFAFreq;
+//			 LETIMER_CompareSet(LETIMER0,1,Time);
+//			 GPIO_PinOutClear(LED1_port,LED1_pin);
+			temp_thres = TEMP_THRES;
+			GPIO_PinOutClear(LED1_port,LED1_pin);
+    		swi = 0;
 			 ADC0->CMPTHR = (4095<<_ADC_CMPTHR_ADLT_SHIFT)|(4000<<_ADC_CMPTHR_ADGT_SHIFT);
 		 }
-   else if(a<=2028)
+   else if(a<=2028)//south
    {
-			Time = ((float)LETIMER_CompareGet(LETIMER0, 1)/LFAFreq);
+			//Time = ((float)LETIMER_CompareGet(LETIMER0, 1)/LFAFreq);
 			spi_write(0x11,0x80);
 			swi = 0;
 			ADC0->CMPTHR = (4095<<_ADC_CMPTHR_ADLT_SHIFT)|(4000<<_ADC_CMPTHR_ADGT_SHIFT);
+//			if(i2c_disabled == 1)
+//				unblockSleepMode(EM3);
 	}
-   else if(a<=2500){
-   		Time = ((float)LETIMER_CompareGet(LETIMER0, 1)/LFAFreq);
-   		if(Time < 2.5)
-   		{
-
-   			Time = (Time + 0.5)* LFAFreq;
-   			LETIMER_CompareSet(LETIMER0,1,Time);
-   		}
+   else if(a<=2500){//west
+//   		Time = ((float)LETIMER_CompareGet(LETIMER0, 1)/LFAFreq);
+//   		if(Time < 2.5)
+//   		{
+//
+//   			Time = (Time + 0.5)* LFAFreq;
+//   			LETIMER_CompareSet(LETIMER0,1,Time);
+//   		}
+	   temp_thres += 5;
    		swi = 0;
         ADC0->CMPTHR = (4095<<_ADC_CMPTHR_ADLT_SHIFT)|(4000<<_ADC_CMPTHR_ADGT_SHIFT);
 
    	}
-   else if(a<=3200){
-   		Time = ((float)LETIMER_CompareGet(LETIMER0, 1)/LFAFreq);
- 		if(Time >= 0.5)
-   			{
-   				Time = (Time - 0.5)* LFAFreq;
-   				LETIMER_CompareSet(LETIMER0,1,Time);
-   			}
-   		 swi = 0;
+   else if(a<=3200){//east
+//   		Time = ((float)LETIMER_CompareGet(LETIMER0, 1)/LFAFreq);
+// 		if(Time >= 0.5)
+//   			{
+//   				Time = (Time - 0.5)* LFAFreq;
+//   				LETIMER_CompareSet(LETIMER0,1,Time);
+//   			}
+   		temp_thres -= 5;
+	   swi = 0;
    		 ADC0->CMPTHR = (4095 << _ADC_CMPTHR_ADGT_SHIFT) + (4000 << _ADC_CMPTHR_ADLT_SHIFT);
 
    		}
-   else if(a<=3468){
+   else if(a<=3468){//north
 			spi_write(0x11,0x00);
 			bma_wakeup();
 			swi = 0;
@@ -246,6 +235,9 @@ void GPIO_ODD_IRQHandler()
 	if(gpio_flag==0){
 		GPIO_PinOutClear(LED1_port,LED1_pin);
 
+		i2c_disable();
+		i2c_disabled = 1;
+
 		while (!(USART1->STATUS & USART_STATUS_TXBL));
 		USART1->TXDOUBLE= 0x1016;
 		while (!(USART1->STATUS & USART_STATUS_TXC));
@@ -260,7 +252,10 @@ void GPIO_ODD_IRQHandler()
 		gpio_flag =1;
      }
      else{
-    	GPIO_PinOutSet(LED1_port,LED1_pin);
+    	//GPIO_PinOutSet(LED1_port,LED1_pin);
+
+    	i2c_enable();
+    	i2c_disabled = 0;
     	while (!(USART1->STATUS & USART_STATUS_TXBL));
     	USART1->TXDOUBLE= 0x2016;
     	while (!(USART1->STATUS & USART_STATUS_TXC));
@@ -285,6 +280,25 @@ void TIMER0_IRQHandler(void)
 	TIMER_IntClear(TIMER0, TIMER_IFC_OF);
 	unblockSleepMode(EM1);
 	__enable_irq();
+}
+
+void LETIMER0_IRQHandler(void) {
+	static int intFlags;
+	__disable_irq();
+	intFlags = LETIMER_IntGet(LETIMER0);
+	LETIMER_IntClear(LETIMER0, intFlags);
+	if(intFlags & LETIMER_IF_COMP0)
+	{
+		if(i2c_disabled == 0){
+			//GPIO_PinOutToggle(LED0_port,LED0_pin);
+			si_measure_start();
+			data = Caculate_Celsius(si_read_result());
+			if(data<temp_thres)
+				GPIO_PinOutSet(LED1_port,LED1_pin);
+		}
+	}
+	__enable_irq();                         //Re-enable interrupts
+
 }
 
 
